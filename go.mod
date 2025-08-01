@@ -5,7 +5,6 @@ go 1.23.8
 toolchain go1.23.11
 
 require (
-	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.9.0
 	github.com/twmb/franz-go v1.19.5
 	go.uber.org/mock v0.5.2

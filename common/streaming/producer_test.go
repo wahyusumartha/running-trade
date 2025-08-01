@@ -10,15 +10,15 @@ import (
 	"go.uber.org/mock/gomock"
 )
 
-func newTestClient(ctrl *gomock.Controller) (*Client, *MockkafkaClient, *Message, *kgo.Record) {
+func newTestProducer(ctrl *gomock.Controller) (*Producer, *MockkafkaClient, *Message, *kgo.Record) {
 	mockKafka := NewMockkafkaClient(ctrl)
-	client := &Client{client: mockKafka}
+	producer := &Producer{client: mockKafka}
 	msg := &Message{Topic: "test", Key: []byte("k"), Value: []byte("v")}
-	record := client.messageToRecord(msg)
-	return client, mockKafka, msg, record
+	record := producer.messageToRecord(msg)
+	return producer, mockKafka, msg, record
 }
 
-func TestClient_ProduceSync(t *testing.T) {
+func TestProducer_ProduceSync(t *testing.T) {
 	tests := []struct {
 		name      string
 		setupMock func(mock *MockkafkaClient, ctx context.Context, record *kgo.Record)
@@ -51,11 +51,11 @@ func TestClient_ProduceSync(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 
-			client, mockKafka, msg, record := newTestClient(ctrl)
+			producer, mockKafka, msg, record := newTestProducer(ctrl)
 			ctx := context.Background()
 			tc.setupMock(mockKafka, ctx, record)
 
-			err := client.ProduceSync(ctx, msg)
+			err := producer.ProduceSync(ctx, msg)
 			if tc.wantErr == nil {
 				require.NoError(t, err)
 			} else {
