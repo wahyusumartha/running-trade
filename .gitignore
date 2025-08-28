@@ -6,12 +6,14 @@
 *.dylib
 *.test
 *.out
+*.md
 
 # Output of the go coverage tool
 *.coverprofile
 
 # Dependency directories (remove the comment below if you use Go modules)
 vendor/
+bin/
 
 # Go workspace file
 go.work
@@ -23,6 +25,9 @@ go.work.sum
 
 # Logs
 *.log
+
+# claude directory
+.claude/
 
 # OS generated files
 .DS_Store
