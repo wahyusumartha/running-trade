@@ -38,7 +38,19 @@ func WithClientID(clientID string) ProducerOption {
 
 func WithRetries(maxRetries int) ProducerOption {
 	return func(p *producerConfig) {
+		p.franzOpt = append(p.franzOpt, kgo.RecordRetries(maxRetries))
+	}
+}
+
+func WithRequestRetries(maxRetries int) ProducerOption {
+	return func(p *producerConfig) {
 		p.franzOpt = append(p.franzOpt, kgo.RequestRetries(maxRetries))
+	}
+}
+
+func WithConnectionTimeout(connectionTimeout time.Duration) ProducerOption {
+	return func(p *producerConfig) {
+		p.franzOpt = append(p.franzOpt, kgo.ConnIdleTimeout(connectionTimeout))
 	}
 }
 
